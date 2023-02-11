@@ -15,7 +15,7 @@ class ProductController extends Controller
     public function detail($detail)
     {
         $cekproduk = produk::with('PicProduk','Cities')->where('token', $detail)->first();
-        // dd($cekproduk);
+        
         if(is_null($cekproduk)){
             return view('content.404');
         }
