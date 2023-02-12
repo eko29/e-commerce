@@ -31,38 +31,62 @@
                 <!-- /.col -->
               </div>
               <!-- info row -->
-              <div class="row invoice-info">
-                <div class="col-sm-4 invoice-col">
-                  From
-                  <address>
-                    <strong>Admin, Inc.</strong><br>
-                    795 Folsom Ave, Suite 600<br>
-                    San Francisco, CA 94107<br>
-                    Phone: (804) 123-5432<br>
-                    Email: info@almasaeedstudio.com
-                  </address>
+              <div class="card card-info">
+                <div class="card-header">
+                  <h3 class="card-title">Alamat Pengirim</h3>
                 </div>
-                <!-- /.col -->
-                <div class="col-sm-4 invoice-col">
-                  To
-                  <address>
-                    <strong>John Doe</strong><br>
-                    795 Folsom Ave, Suite 600<br>
-                    San Francisco, CA 94107<br>
-                    Phone: (555) 539-1037<br>
-                    Email: john.doe@example.com
-                  </address>
-                </div>
-                <!-- /.col -->
-                <div class="col-sm-4 invoice-col">
-                  <b>Invoice #007612</b><br>
-                  <br>
-                  <b>Order ID:</b> 4F3S8J<br>
-                  <b>Payment Due:</b> 2/22/2014<br>
-                  <b>Account:</b> 968-34567
-                </div>
-                <!-- /.col -->
+                <form action="{{ route('produk.simpan.alamat') }}" method="POST">
+                  @csrf
+                  <div class="card-body">
+                    <div class="input-group input-group-sm mb-3">
+                      <input type="text" class="form-control" placeholder="Alamat" name="alamat">
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                      <select class="form-control select2 placeholder-provinsi" style="width: 100%;" name="provinsi">
+                        <option selected="selected"></option>
+                        @forelse ($prov as $p)    
+                          <option value="{{ $p->province_id }}">{{ $p->province_name }}</option>
+                        @empty
+                        @endforelse
+                      </select>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                      <select class="form-control select2 placeholder-kota" style="width: 100%;" name="kota">
+                        <option selected="selected"></option>
+                      </select>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                      <select class="form-control select2 placeholder-kecamatan" style="width: 100%;" name="kecamatan">
+                        <option selected="selected"></option>
+                      </select>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                      <input type="text" class="form-control" placeholder="No Telp" name="telp">
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                      <span class="input-group-append">
+                        <button type="submit" class="btn btn-info btn-flat">Submit</button>
+                      </span>
+                    </div>
+                    <!-- /input-group -->
+                  </div>
+                </form>
               </div>
+              @if(!is_null($cek_user))
+                <div class="row invoice-info">
+                  <div class="col-sm-4 invoice-col">
+                    To
+                    <address>
+                      <strong>{{ $cek_user->user_cs->name }} </strong><br>
+                      {{ $cek_user->almt }}<br>
+                      {{ $cek_user->subdistricts->subdistrict_name }}<br>
+                      {{ $cek_user->cities->city_name }}<br>
+                      {{ $cek_user->provinsi->province_name }}<br>
+                      Phone: {{ $cek_user->no_telp }}
+                    </address>
+                  </div>
+                </div>
+              @endif
               <!-- /.row -->
 
               <!-- Table row -->
@@ -74,6 +98,7 @@
                         <th>Qty</th>
                         <th>Product</th>
                         <th>Harga</th>
+                        <th>Diskon</th>
                         <th>Subtotal</th>
                       </tr>
                     </thead>
@@ -86,6 +111,7 @@
                           <td>{{ $t->qty }}</td>
                           <td>{{ $t->Produk->nama_produk }}</td>
                           <td>{{ Fungsi::rupiah($t->Produk->harga_produk) }}</td>
+                          <td>{{ $t->Produk->diskon }}%</td>
                           <td>
                             @php
                               $hrg = ($t->Produk->harga_produk-($t->Produk->harga_produk*$t->Produk->diskon/100))*$t->qty;
@@ -130,16 +156,16 @@
                         <td>{{ Fungsi::rupiah($ttl) }}</td>
                       </tr>
                       <tr>
-                        <th>Tax (9.3%)</th>
-                        <td>$10.34</td>
+                        <th>Kupon:</th>
+                        <td>{{ Fungsi::rupiah($shipp) }}</td>
                       </tr>
                       <tr>
                         <th>Shipping:</th>
-                        <td>$5.80</td>
+                        <td>{{ Fungsi::rupiah($shipp) }}</td>
                       </tr>
                       <tr>
                         <th>Total:</th>
-                        <td>$265.24</td>
+                        <td>{{ Fungsi::rupiah($ttl+$shipp) }}</td>
                       </tr>
                     </table>
                   </div>
@@ -170,9 +196,60 @@
 @endsection
 @section('scripts')
   <script type="text/javascript">
-    
-    $(function() {
-      
+    $(document).ready(function(){
+      $('.select2').select2();
+      $(".placeholder-provinsi").select2({
+          placeholder: "Pilih Provinsi",
+          allowClear: true
+      });
+      $(".placeholder-kota").select2({
+          placeholder: "Pilih Kota/Kabupaten",
+          allowClear: true
+      });
+      $(".placeholder-kecamatan").select2({
+          placeholder: "Pilih Kecamatan",
+          allowClear: true
+      });
+      $('select[name="provinsi"]').on('change', function() {
+          var stateID = $(this).val();
+          if(stateID){
+                  $.ajax({
+                  url: '/city/'+stateID,
+                  type: "GET",
+                  dataType: "json",
+                  success:function(data){
+                      $('select[name="kota"]').empty();
+                      $('select[name="kota"]').append('<option value=""></option>');
+                      $('select[name="kecamatan"]').empty();
+                      $('select[name="kecamatan"]').append('<option selected></option>');
+                      $.each(data, function(key, value) {
+                        $('select[name="kota"]').append('<option value="'+ key +'">'+ value +'</option>');
+                      });
+                  }
+              });
+          }else{
+              $('select[name="kab_kot"]').empty();
+          }
+      });
+      $('select[name="kota"]').on('change', function() {
+          var stateID = $(this).val();
+          if(stateID){
+                  $.ajax({
+                  url: '/subdistrict/'+stateID,
+                  type: "GET",
+                  dataType: "json",
+                  success:function(data){
+                      $('select[name="kecamatan"]').empty();
+                      $('select[name="kecamatan"]').append('<option selected></option>');
+                      $.each(data, function(key, value) {
+                          $('select[name="kecamatan"]').append('<option value="'+ key +'">'+ value +'</option>');
+                      });
+                  }
+              });
+          }else{
+              $('select[name="kecamatan"]').empty();
+          }
+      });
     });
 
   </script>

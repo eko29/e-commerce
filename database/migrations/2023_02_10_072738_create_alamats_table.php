@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('id_subcities');
             $table->string('almt');
             $table->string('no_telp');
+            $table->enum('status',['Check']);
             $table->timestamps();
         });
     }

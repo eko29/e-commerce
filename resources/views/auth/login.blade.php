@@ -27,31 +27,25 @@
       <form action="{{ route('login') }}" method="post">
         @csrf
         <div class="input-group mb-3">
-          <input type="email" class="form-control" name="email" placeholder="Email">
+          <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" placeholder="Email">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
             </div>
           </div>
+          @error('email')<div class="invalid-feedback"> {{$message}}</div>
+          @enderror
         </div>
-        @error('email')
-          <div class="invalid-feedback">
-              {{ $message }}
-          </div>
-        @enderror
         <div class="input-group mb-3">
-          <input type="password" class="form-control" name="password" placeholder="Password">
+          <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="Password">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
             </div>
           </div>
+          @error('password')<div class="invalid-feedback"> {{$message}}</div>
+          @enderror
         </div>
-        @error('email')
-          <div class="invalid-feedback">
-              {{ $message }}
-          </div>
-        @enderror
         <div class="row">
           <!-- /.col -->
           <div class="col-4">

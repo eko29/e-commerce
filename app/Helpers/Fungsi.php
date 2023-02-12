@@ -1,5 +1,7 @@
 <?php
 namespace App\Helpers;
+
+use App\Models\parent_menu;
  
 class Fungsi {
     public static function rupiah($angka){
@@ -8,4 +10,5 @@ class Fungsi {
         return $hasil_rupiah;
 
     }
+    
 }

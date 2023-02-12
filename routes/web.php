@@ -25,7 +25,11 @@ Route::get('/home', function () {
 
 Route::get('/product/detail/{token}', [ProductController::class, 'detail'])->name('product.detail');
 Route::post('/register-new-member', [RegisterController::class, 'register'])->name('register.new');
+Route::get('/product/barang/kategori/{kategori}/{gender}', [ProductController::class, 'ketegori_gender'])->name('produk.kategori.gender');
 Route::group(['middleware' => ['auth:web', 'verified']], function() {
     Route::get('/add-cart', [ProductController::class, 'addcart'])->name('product.addcart');
     Route::get('/add-cart/po', [ProductController::class,'po'])->name('produk.addcart.po');
+    Route::get('/city/{id}', [ProductController::class, 'city'])->name('produk.addcart.city');
+    Route::get('/subdistrict/{id}', [ProductController::class, 'subdistrict'])->name('produk.addcart.subdistrict');
+    Route::post('simpan-alamat', [ProductController::class, 'simpan_alamat'])->name('produk.simpan.alamat');
 });

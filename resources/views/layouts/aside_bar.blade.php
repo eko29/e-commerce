@@ -28,19 +28,72 @@
           <a href="#" class="nav-link">
             <i class="nav-icon fas fa-book"></i>
             <p>
-              Pages
+              Pakaian
               <i class="fas fa-angle-left right"></i>
             </p>
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="/product/detail" class="nav-link">
+              <a href="{{ route('produk.kategori.gender', ['kategori' => 'pakaian', 'gender' => 'pria']) }}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>E-commerce</p>
+                <p>Pakaian Laki-laki</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ route('produk.kategori.gender', ['kategori' => 'pakaian', 'gender' => 'perempuan']) }}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Pakaian Perempuan</p>
+              </a>
+            </li>
+          </ul>
+        </li><li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-book"></i>
+            <p>
+              Sepatu
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="{{ route('produk.kategori.gender', ['kategori' => 'sepatu', 'gender' => 'pria']) }}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Sepatu Laki-laki</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ route('produk.kategori.gender', ['kategori' => 'sepatu', 'gender' => 'perempuan']) }}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Sepatu Perempuan</p>
               </a>
             </li>
           </ul>
         </li>
+        @if(!is_null(Auth::user()))
+          <li class="nav-item">
+            <a href="{{ route('produk.addcart.po') }}" class="nav-link">
+                <i class="fas fa-cart-plus fa-lg mr-2"></i>
+                <span>Cart</span>
+              </a>
+          </li>
+        
+          <li class="nav-item">
+            <a href="#" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <form id="logout-form" action="/logout" method="POST" style="display: none;">
+                    {{ csrf_field() }}
+                </form>
+                <i class="ni ni-user-run"></i>
+                <span>Logout</span>
+              </a>
+          </li>
+        @else
+          <li class="nav-item">
+            <a href="{{ route('login') }}" class="nav-link">
+                <i class="ni ni-user-run"></i>
+                <span>Login</span>
+              </a>
+          </li>
+        @endif
       </ul>
     </nav>
     <!-- /.sidebar-menu -->

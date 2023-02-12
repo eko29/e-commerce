@@ -41,6 +41,7 @@ return new class extends Migration
             $table->string('tipe_pengikat');
             $table->string('tinggi_sepatu');
             $table->integer('id_kategori');
+            $table->integer('weight');
             $table->timestamps();
         });
     }

@@ -31,9 +31,10 @@ class RegisterController extends Controller
             'retype_password' => ['required'],
         ],
         [
-            'name.required'        =>'Total tagihan Tidak boleh kosong',
-            'email.required'      => 'Nama tagihan harus diisi',
-            'retype_password.required'        => 'Jatuh Tempo harus diisi',
+            'name.required'             => 'Nama Tidak boleh kosong',
+            'email.required'            => 'Email Tidak boleh kosong',
+            'password.required'         => 'Password Tidak boleh kosong',
+            'retype_password.required'  => 'Retype Tidak boleh kosong',
         ]);
         $new_user = new User;
         $new_user->name      = $request->name;

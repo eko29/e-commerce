@@ -223,6 +223,6 @@ return [
 
     'rajaongkir_api_key' => env('RAJAONGKIR_API_KEY'),
     'rajaongkir_api_type' => env('RAJAONGKIR_API_TYPE'),
-    'rajaongkir_api_type' => env('RAJAONGKIR_LINK'),
+    'rajaongkir_api_link' => env('RAJAONGKIR_LINK'),
 
 ];
