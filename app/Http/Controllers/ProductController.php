@@ -147,7 +147,7 @@ class ProductController extends Controller
                     $query->where('jk', $gender);
                 })->get();
         
-        dd($cek_mn);
+        // dd($cek_mn);
         return view('content.kegori_gender');
     }
 }
