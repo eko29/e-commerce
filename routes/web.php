@@ -16,13 +16,8 @@ use App\Http\Controllers\RegisterController;
 |
 */
 
-Route::get('/', function () {
-    return view('content.home');
-});
-Route::get('/home', function () {
-    return view('content.home');
-});
-
+Route::get('/', [ProductController::class, 'home'])->name('home');
+Route::get('/home', [ProductController::class, 'home'])->name('home.home');
 Route::get('/product/detail/{token}', [ProductController::class, 'detail'])->name('product.detail');
 Route::post('/register-new-member', [RegisterController::class, 'register'])->name('register.new');
 Route::get('/product/barang/kategori/{kategori}/{gender}', [ProductController::class, 'ketegori_gender'])->name('produk.kategori.gender');

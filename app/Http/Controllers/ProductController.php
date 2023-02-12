@@ -11,6 +11,7 @@ use App\Models\cities;
 use App\Models\subdistricts;
 use App\Models\alamat;
 use App\Models\parent_menu;
+use App\Models\kategori_produk;
 use Carbon\Carbon;
 use Auth;
 use Illuminate\Support\Facades\Validator;
@@ -20,6 +21,11 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    public function home(Request $request){
+        $produk = produk::get();
+        // dd($produk);
+        return view('content.home',compact('produk'));
+    }
     public function detail($detail)
     {
         $cekproduk = produk::with('PicProduk','Cities')->where('token', $detail)->first();
@@ -142,12 +148,9 @@ class ProductController extends Controller
         }else{
             $gd = 2;
         }
-        $cek_mn = parent_menu::with('Kategori')->where('menu', $kategori)
-                ->wherehas('Kategori', function($query) use($gender){
-                    $query->where('jk', $gender);
-                })->get();
-        
-        // dd($cek_mn);
-        return view('content.kegori_gender');
+        $cek_mn = parent_menu::with('Kategori')->where('menu', $kategori)->first();
+        $cek_kat = kategori_produk::with('Produk')->where('id_menu', $cek_mn->id)->where('jk', $gd)->get();
+        // dd($kategori,$cek_mn->id,$cek_kat);
+        return view('content.kategori_gender',compact('cek_mn','cek_kat','gender'));
     }
 }
