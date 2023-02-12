@@ -129,7 +129,51 @@
                 <!-- /.col -->
               </div>
               <!-- /.row -->
-
+              <div class="small-12 cell">
+        <div class="icard with-shadow data-card">
+          <div class="icard-body">
+            <div class="checkout grid-x grid-margin-x">
+              <div class="large-8 large-offset-2 cell">
+                <div class="card-title tal mb10">Metode Bayar</div>
+                <div class="payment_methods_vo mb0">
+                  <!-- <div class="payment_opt">
+                    <label for="pay_paytren">
+                      <input type="radio" id="pay_paytren" name="payment_method" value="EMONEY" {{ $sel->payment_method=='EMONEY' ? 'checked' : '' }} {{ ($sel->payment_method && $sel->payment_method!='EMONEY') ? 'disabled' : '' }}> <strong>Paytren eMoney</strong>
+                      <div class="info-block">
+                        <p>Pastikan sudah download dan install Aplikasi Paytren 5.17, jika belum <a href="https://play.google.com/store/apps/details?id=id.co.paytren.user" target="_blank">klik disini</a> untuk Android, <a href="https://apps.apple.com/id/app/paytren-5-17/id1387123517" target="_blank">klik disini</a> untuk iOS</p>
+                      </div>
+                    </label>
+                  </div>-->
+                  <div class="payment_opt">
+                    <label for="pay_bank_Mandiri">
+                      <input type="radio" id="pay_bank_Mandiri" name="payment_method" value="MDR" {{ $sel->payment_method=='MDR' ? 'checked' : '' }} {{ ($sel->payment_method && $sel->payment_method!='MDR') ? 'disabled' : '' }}> <strong>Mandiri (Transfer Bank)</strong>
+                      <div class="info-block">
+                        <p>Melalui ATM, Mobile Banking atau Internet Banking</p>
+                      </div>
+                    </label>
+                  </div>
+                  <div class="payment_opt">
+                    <label for="pay_bank_BCA">
+                      <input type="radio" id="pay_bank_BCA" name="payment_method" value="RINTIS_BCA" {{ $sel->payment_method=='RINTIS_BCA' ? 'checked' : '' }} {{ ($sel->payment_method && $sel->payment_method!='RINTIS_BCA') ? 'disabled' : '' }}> <strong>BCA (Transfer Bank)</strong>
+                      <div class="info-block">
+                        <p>Melalui ATM, Mobile Banking atau Internet Banking</p>
+                      </div>
+                    </label>
+                  </div>
+                                    <div class="payment_opt">
+                    <label for="pay_narobil">
+                      <input type="radio" id="pay_narobil" name="payment_method" value="NAROBIL" {{ $sel->payment_method=='NAROBIL' ? 'checked' : '' }} {{ ($sel->payment_method && $sel->payment_method!='NAROBIL') ? 'disabled' : '' }}> <strong>Narobil</strong>
+                      <div class="info-block">
+                        <p>Melalui Indomaret/Alfamart/Alfamidi</p>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
               <div class="row">
                 <!-- accepted payments column -->
                 <div class="col-6">
